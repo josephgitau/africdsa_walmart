@@ -1,6 +1,7 @@
 # import all the app dependencies
 import streamlit as st
 import pandas as pd
+# fit a single model
 from sklearn.ensemble import RandomForestRegressor
 import joblib
 
@@ -24,9 +25,6 @@ df.drop('Date', axis = 1, inplace = True)
 
 X = df.drop('Weekly_Sales', axis = 1)
 y = df['Weekly_Sales']
-
-# fit a single model
-from sklearn.ensemble import RandomForestRegressor
 
 # instantiate the model
 random_forest_model = RandomForestRegressor()# add hyperparameters n_estimators - are the number of trees in the forest)
