@@ -1,11 +1,38 @@
 # import all the app dependencies
 import streamlit as st
 import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 import joblib
 
+# import walmart data
+df = pd.read_csv("Walmart.csv")
 
-# load the encoder and model object
-random_forest_model = joblib.load("walmart_model.joblib")
+df['Date'][1].split('-')
+# Extract day, month and year from the Date column using split function
+df['Day'] = df['Date'].apply(lambda x : x.split('-')[0])
+df['Month'] = df['Date'].apply(lambda x : x.split('-')[1])
+df['Year'] = df['Date'].apply(lambda x : x.split('-')[2])
+# save the columns as integer type
+df['Day'] = df['Day'].astype(int)
+df['Month'] = df['Month'].astype(int)
+df['Year'] = df['Year'].astype(int)
+
+# drop the Date column
+df.drop('Date', axis = 1, inplace = True)
+
+# create X, y 
+
+X = df.drop('Weekly_Sales', axis = 1)
+y = df['Weekly_Sales']
+
+# fit a single model
+from sklearn.ensemble import RandomForestRegressor
+
+# instantiate the model
+random_forest_model = RandomForestRegressor()# add hyperparameters n_estimators - are the number of trees in the forest)
+
+# fit the model to the data
+random_forest_model.fit(X, y)
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
